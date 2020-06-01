@@ -17,7 +17,7 @@ class HashTable:
     A hash table that with `capacity` buckets
     that accepts string keys
 
-    Implement this.
+    Implemented as an empty list that will hold entries
     """
 
     def __init__(self, capacity: int):
@@ -32,7 +32,7 @@ class HashTable:
 
         One of the tests relies on this.
 
-        Implement this.
+        Implemented as just returning length of table.
         """
         return len(self.table)
 
@@ -40,11 +40,12 @@ class HashTable:
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
-
+        Number of keys divided by capacity
         Implement this.
         """
         # Your code here
-        pass
+        number_of_keys = sum(1 for _ in filter(None.__ne__, self.table))
+        return (number_of_keys/capacity)
 
 
     def fnv1(self, key):
