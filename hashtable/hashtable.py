@@ -23,7 +23,7 @@ class HashTable:
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.table = [None] * capacity
-
+        self.load = 0 
     def get_num_slots(self):
         """
         Return the length of the list you're using to hold the hash
@@ -43,20 +43,27 @@ class HashTable:
         Number of keys divided by capacity
         Implement this.
         """
-        # Your code here
+        # counts number of keys
+        # refactor later to return a number that increases
+        # when put is called 
         number_of_keys = sum(1 for _ in filter(None.__ne__, self.table))
         return (number_of_keys/capacity)
 
 
-    def fnv1(self, key):
+    def fnv1(self, key, seed:int = 0):
         """
-        FNV-1 Hash, 64-bit
-
-        Implement this, and/or DJB2.
+        FNV-1 Hash, 64-bit for strings, breaks for ints
+        ^ is bitwise XOR and breaks on strings 
         """
-        pass 
-        # Your code here
+        # constants
+        FNV_PRIME = 1099511628211
+        offset_basis = 14695981039346656037
 
+        hashed = offset_basis + seed 
+        for char in key:
+            hashed = hashed * FNV_PRIME
+            hashed = hashed ^ ord(char)
+        return hashed 
 
     def djb2(self, key):
         """
