@@ -1,7 +1,7 @@
 # Hash Tables
 
 ## Day 1
-
+practice insert from VIM
 Task: Implement a basic hash table without collision resolution.
 
 1. Implement a `HashTable` class and `HashTableEntry` class.
