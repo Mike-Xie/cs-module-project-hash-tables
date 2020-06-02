@@ -2,7 +2,7 @@ class HashTableEntry:
     """
     Linked List hash table key/value pair
     """
-    def __init__(self, key, value):
+    def __init__(self, key: str, value: int):
         self.key = key
         self.value = value
         self.next = None
@@ -10,7 +10,6 @@ class HashTableEntry:
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
-
 
 class HashTable:
     """
@@ -21,10 +20,15 @@ class HashTable:
     """
 
     def __init__(self, capacity: int):
-        self.capacity = capacity
+        if capacity < MIN_CAPACITY:
+            print("Input capacity under minimum (8), setting to minimum.")
+            self.capacity = 8
+        else:
+            self.capacity = capacity
         self.table = [None] * capacity
         self.load = 0 
-    def get_num_slots(self):
+
+    def get_num_slots(self) -> int:
         """
         Return the length of the list you're using to hold the hash
         table data. (Not the number of items stored in the hash table,
@@ -50,12 +54,13 @@ class HashTable:
         return (number_of_keys/capacity)
 
 
-    def fnv1(self, key, seed:int = 0):
+    def fnv1(self, key: str, seed: int = 0):
         """
         FNV-1 Hash, 64-bit for strings, breaks for ints
         ^ is bitwise XOR and breaks on strings 
         """
-        # constants
+        # constants, prime and offset are on wikipedia page
+        # https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1_hash
         FNV_PRIME = 1099511628211
         offset_basis = 14695981039346656037
 
@@ -65,7 +70,7 @@ class HashTable:
             hashed = hashed ^ ord(char)
         return hashed 
 
-    def djb2(self, key):
+    def djb2(self, key: str, seed: int = 0):
         """
         DJB2 hash, 32-bit
 
@@ -81,7 +86,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
 
     def put(self, key, value):
         """
