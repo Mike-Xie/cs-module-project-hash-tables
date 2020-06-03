@@ -30,3 +30,8 @@ Ignore each of the following characters:
 
 If the input contains no ignored characters, return an empty dictionary.
 
+## Plan
+
+Split the String. User iterator or something to keep counts.
+Store in dictionary and return without assigning a variable to 
+be more efficient
