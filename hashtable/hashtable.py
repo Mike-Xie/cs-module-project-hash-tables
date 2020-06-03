@@ -41,7 +41,7 @@ class HashTable:
         return len(self.table)
 
 
-    def get_load_factor(self):
+    def get_load_factor(self) -> float:
         """
         Return the load factor for this hash table.
         Number of keys divided by capacity
@@ -54,7 +54,7 @@ class HashTable:
         return (number_of_keys/capacity)
 
 
-    def fnv1(self, key: str, seed: int = 0):
+    def fnv1(self, key: str, seed: int = 0) -> int:
         """
         FNV-1 Hash, 64-bit for strings, breaks for ints
         ^ is bitwise XOR and breaks on strings 
@@ -70,7 +70,7 @@ class HashTable:
             hashed = hashed ^ ord(char)
         return hashed 
 
-    def djb2(self, key: str, seed: int = 0):
+    def djb2(self, key: str, seed: int = 0) -> int:
         """
         DJB2 hash, 32-bit
 
@@ -79,8 +79,7 @@ class HashTable:
         # Your code here
         pass 
 
-
-    def hash_index(self, key):
+    def hash_index(self, key: str) -> int:
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
@@ -88,7 +87,7 @@ class HashTable:
         #return self.fnv1(key) % self.capacity
         return self.fnv1(key) % self.capacity
 
-    def put(self, key, value):
+    def put(self, key: str, value: str) -> None:
         """
         Store the value with the given key.
 
@@ -96,11 +95,12 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass 
+        self.load += 1
+        insert_index = self.hash_index(key)
+        self.table[insert_index] = HashTableEntry(key = key, value=value)
 
 
-    def delete(self, key):
+    def delete(self, key: str) -> None:
         """
         Remove the value stored with the given key.
 
@@ -109,10 +109,16 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        pass 
+        delete_index = self.hash_index(key)
 
+        if self.table[delete_index].key is None:
+            print("Warning, key not found")
+        else:
+            self.load -= 1 
+            self.table[delete_index] = HashTableEntry(key, None)
 
-    def get(self, key):
+  
+    def get(self, key: str) -> str:
         """
         Retrieve the value stored with the given key.
 
@@ -120,18 +126,25 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        index = self.hash_index(key)
+        hash_entry = self.table[index]
+        if hash_entry is not None:
+            return hash_entry.value 
+        else:
+            return None 
 
 
-    def resize(self, new_capacity):
+    def resize(self, new_capacity: int) -> None:
         """
         Changes the capacity of the hash table and
         rehashes all key/value pairs.
 
-        Implement this.
+        Increase cap, rehash everything
         """
-        # Your code here
+       # self.capacity = new_capacity
+
+        # for item in self.table:
+        #     print(item.value)
         pass 
 
 
@@ -140,18 +153,18 @@ if __name__ == "__main__":
     ht = HashTable(8)
 
     ht.put("line_1", "'Twas brillig, and the slithy toves")
-    ht.put("line_2", "Did gyre and gimble in the wabe:")
-    ht.put("line_3", "All mimsy were the borogoves,")
-    ht.put("line_4", "And the mome raths outgrabe.")
-    ht.put("line_5", '"Beware the Jabberwock, my son!')
-    ht.put("line_6", "The jaws that bite, the claws that catch!")
-    ht.put("line_7", "Beware the Jubjub bird, and shun")
-    ht.put("line_8", 'The frumious Bandersnatch!"')
-    ht.put("line_9", "He took his vorpal sword in hand;")
-    ht.put("line_10", "Long time the manxome foe he sought--")
-    ht.put("line_11", "So rested he by the Tumtum tree")
-    ht.put("line_12", "And stood awhile in thought.")
-
+    # ht.put("line_2", "Did gyre and gimble in the wabe:")
+    # ht.put("line_3", "All mimsy were the borogoves,")
+    # ht.put("line_4", "And the mome raths outgrabe.")
+    # ht.put("line_5", '"Beware the Jabberwock, my son!')
+    # ht.put("line_6", "The jaws that bite, the claws that catch!")
+    # ht.put("line_7", "Beware the Jubjub bird, and shun")
+    # ht.put("line_8", 'The frumious Bandersnatch!"')
+    # ht.put("line_9", "He took his vorpal sword in hand;")
+    # ht.put("line_10", "Long time the manxome foe he sought--")
+    # ht.put("line_11", "So rested he by the Tumtum tree")
+    # ht.put("line_12", "And stood awhile in thought.")
+    ht.delete("line_1")
     print("")
 
     # Test storing beyond capacity
