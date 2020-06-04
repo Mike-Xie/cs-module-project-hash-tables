@@ -1,7 +1,12 @@
-def no_dups(s):
-    # Your code here
+"""
+First split the string, then use 
 
-
+"""
+def no_dups(s: str) -> str:
+    #
+    s = s.split()
+    s = list(dict.fromkeys(s))
+    return ' '.join(s)
 
 if __name__ == "__main__":
     print(no_dups(""))
