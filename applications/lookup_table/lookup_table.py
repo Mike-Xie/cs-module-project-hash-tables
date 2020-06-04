@@ -1,24 +1,26 @@
 import math
 import random 
 
-def slowfun_too_slow(x, y):
-    v = math.pow(x, y)
-    v = math.factorial(v)
-    v //= (x + y)
-    v %= 982451653
+# def slowfun_too_slow(x, y):
+#     v = math.pow(x, y)
+#     v = math.factorial(v)
+#     v //= (x + y)
+#     v %= 982451653
 
-    return v
+#     return v
 
 def slowfun(x, y):
-    key = (x, y)
-    if key in lookup_table:
-        return lookup_table[key]
-    elif key not in lookup_table:
-        lookup_table[key] = slowfun_too_slow(x, y)
+    if (x, y) in lookup_table:
+        return lookup_table[(x, y)]
+    elif (x,y) not in lookup_table:
+        v = math.pow(x, y)
+        v = math.factorial(v)
+        v //= (x + y)
+        v %= 982451653
+        lookup_table[(x, y)] = v 
+        return v
     
-
 lookup_table = {}
-
 
 for i in range(50000):
     x = random.randrange(2, 14)
